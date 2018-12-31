@@ -58,8 +58,8 @@ inline double dist(double x1, double y1, double x2, double y2) {
 	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
-inline float multivariate_gauss_prob_dens(float x, float y, float land_x, float land_y, float stdev_x, float stdev_y) {
-  float norm_term = (1/(2*M_PI*stdev_x*stdev_y));
+inline double multivariate_gauss_prob_dens(double x, double y, double land_x, double land_y, double stdev_x, double stdev_y) {
+  double norm_term = (1/(2*M_PI*stdev_x*stdev_y));
   return norm_term * 1/exp(pow(x - land_x, 2)/(2*pow(stdev_x, 2)) + pow(y - land_y, 2)/(2*pow(stdev_y, 2)));
 }
 
@@ -97,7 +97,7 @@ inline bool read_map_data(std::string filename, Map& map) {
 		std::istringstream iss_map(line_map);
 
 		// Declare landmark values and ID:
-		float landmark_x_f, landmark_y_f;
+		double landmark_x_f, landmark_y_f;
 		int id_i;
 
 		// Read data from current line to values::

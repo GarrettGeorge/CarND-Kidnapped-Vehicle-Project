@@ -80,18 +80,18 @@ int main() {
           string sense_observations_x = j[1]["sense_observations_x"];
           string sense_observations_y = j[1]["sense_observations_y"];
 
-          std::vector<float> x_sense;
+          std::vector<double> x_sense;
           std::istringstream iss_x(sense_observations_x);
 
-          std::copy(std::istream_iterator<float>(iss_x),
-          std::istream_iterator<float>(),
+          std::copy(std::istream_iterator<double>(iss_x),
+          std::istream_iterator<double>(),
           std::back_inserter(x_sense));
 
-          std::vector<float> y_sense;
+          std::vector<double> y_sense;
           std::istringstream iss_y(sense_observations_y);
 
-          std::copy(std::istream_iterator<float>(iss_y),
-          std::istream_iterator<float>(),
+          std::copy(std::istream_iterator<double>(iss_y),
+          std::istream_iterator<double>(),
           std::back_inserter(y_sense));
 
           for (int i = 0; i < x_sense.size(); i++) {

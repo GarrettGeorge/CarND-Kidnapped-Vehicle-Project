@@ -26,7 +26,6 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	num_particles = 100;  // TODO: Set the number of particles
 	
-	default_random_engine gen;
 	normal_distribution<double> dist_x(x, std[0]);
 	normal_distribution<double> dist_y(y, std[1]);
 	normal_distribution<double> dist_theta(theta, std[2]);
@@ -51,7 +50,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	// NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
-	default_random_engine gen;
 	normal_distribution<double> dist_x(0.0, std_pos[0]);
 	normal_distribution<double> dist_y(0.0, std_pos[1]);
 	normal_distribution<double> dist_theta(0.0, std_pos[2]);
@@ -140,9 +138,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		std::vector<LandmarkObs> t_obs;
 		for (unsigned int j = 0; j < observations.size(); j++) {
 			LandmarkObs o = observations[j];
-			o.x = p.x + (cos(p.theta) * o.x) - (sin(p.theta) * o.y);
-			o.y = p.y + (sin(p.theta) * o.x) + (cos(p.theta) * o.y);
-			t_obs.push_back(o);
+			LandmarkObs obs;
+			obs.x = p.x + (cos(p.theta) * o.x) - (sin(p.theta) * o.y);
+			obs.y = p.y + (sin(p.theta) * o.x) + (cos(p.theta) * o.y);
+			t_obs.push_back(LandmarkObs{ o.id, obs.x, obs.y });
 		}
 
 		// Find the landmarks within sensor range to current particle
@@ -193,7 +192,6 @@ void ParticleFilter::resample() {
 	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 
 	// Get random index to start "resampling wheel"
-	default_random_engine gen;
 	uniform_int_distribution<int> index_dist(0, int(particles.size()) - 1);
 	int index = index_dist(gen);
 

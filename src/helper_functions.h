@@ -58,6 +58,11 @@ inline double dist(double x1, double y1, double x2, double y2) {
 	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
+inline float multivariate_gauss_prob_dens(float x, float y, float land_x, float land_y, float stdev_x, float stdev_y) {
+  float norm_term = (1/(2*M_PI*stdev_x*stdev_y));
+  return norm_term * 1/exp(pow(x - land_x, 2)/(2*pow(stdev_x, 2)) + pow(y - land_y, 2)/(2*pow(stdev_y, 2)));
+}
+
 inline double * getError(double gt_x, double gt_y, double gt_theta, double pf_x, double pf_y, double pf_theta) {
 	static double error[3];
 	error[0] = fabs(pf_x - gt_x);
